@@ -7,4 +7,4 @@ def max_of_int(a, b):
         return b
 
 
-print(f'Максимальное число из введенных: {max_of_int(1, 7)}')
+print(f'Максимальное число из введенных: {max_of_int(8, 7)}')
