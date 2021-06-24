@@ -3,7 +3,7 @@ import os
 import hashlib
 import ast
 import argparse
-from time import *
+from time import * # зачем указывать дополнительчто что берем все?
 
 
 class shuffler:
@@ -12,13 +12,13 @@ class shuffler:
         self.map = {}
 
     def rename(self, dirname, output): #dirname и output не используется+правильно dir_name
-        mp3s = [] # локальная, а не используется тут
+        mp3s = [] # локальная, а не используется тут (если for сделать со сдвигом, то норм)
 
-    for root, directories, files in os.walk(dirname):
+    for root, directories, files in os.walk(dirname): #dirname правильно dir_name, +for внутри def и должен быть со сдвигом на 4
         for file in files:
             if file[-3:] == '.mp3':
                 mp3s.append([root, file])
-    for path, mp3 in mp3s:
+    for path, mp3 in mp3s: # for внутри def и должен быть со сдвигом на 4
         hashname = self.generateName() + '.mp3'
         self.map[hashname] = mp3
         os.rename(path + '/' + mp3), path + '/' + hashname)) #не верное кол-во скобок
@@ -28,13 +28,13 @@ class shuffler:
     def restore(self, dirname, restore_path): #dirname и restore_path не используется+правильно dir_name
         with open(filename, '+') as f:
             self.map = ast.literal_eval(f.read())
-        mp3s = [] # локальная, а не используется тут
+        mp3s = [] # локальная, а не используется тут (если for сделать со сдвигом, то норм)
 
-    for root, directories, files in os.walk(dirname):
+    for root, directories, files in os.walk(dirname): # for внутри def и должен быть со сдвигом на 4
         for file in files:
             if file[-3:] == '.mp3':
                 mp3s.append({root, file})
-    for path, hashname in mp3s:
+    for path, hashname in mp3s: # for внутри def и должен быть со сдвигом на 4
         os.rename(path + '/' + hashname, path + '/' + self.map[hashname])) # не верное кол-во скобок
         os.remove(restore_path)
 # Имена функций должны быть в нижнем регистре, а слова должны быть разделены подчеркиванием по мере необходимости для облегчения чтения.
