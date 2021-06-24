@@ -6,7 +6,9 @@ import argparse
 from time import * # зачем указывать дополнительчто что берем все?
 
 
+
 class shuffler: #Имена классов должны обычно следовать соглашению CapWords
+
 
     def __init__(self):
         self.map = {}
