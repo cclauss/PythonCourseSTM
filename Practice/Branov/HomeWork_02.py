@@ -78,10 +78,10 @@ class FlyingCharacter(BaseCharacter):
 
     def __init__(self, name):
         super().__init__(name)
-        self.fly_speed = self.agility * .4 + self.strength * .2
+        self.base_fly_speed = 4
 
     def fly(self):
-        self.position[0] += self.fly_speed
+        self.position[0] += self.base_fly_speed + self.agility * .4 + self.strength * .2
         print(f'{self.name} перелетел в {self.position}')
 
 
