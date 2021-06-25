@@ -25,7 +25,7 @@ class Shuffler:  # class names should use CapWords
         f.write(str(self.map))
 
     def restore(self, dir_name, restore_path):
-        with open(dir_name, '+') as f:  # indent 4 spaces. use directory arg instead filename
+        with open(dir_name, '+') as f:  # indent 4 spaces. use dir_name arg instead file_name
             self.map = ast.literal_eval(f.read())
         mp3s = []
         for root, directories, files in os.walk(dir_name):  # use dir_name arg
