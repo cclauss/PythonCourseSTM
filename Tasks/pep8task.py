@@ -1,43 +1,56 @@
-import sys
-import os
-import hashlib
+import argparse  # optimize import
 import ast
-import argparse
-from time import *
+import hashlib
+import os
+import sys
+import time
 
 
-class shuffler:
+# Шаблоны импортов (from import *) следует избегать,
+# так как они делают неясным то, какие имена присутствуют в
+# глобальном пространстве имён
+
+
+# отступы поправлены с помощью Alt+Ctrl+L  в пайчарм
+
+
+class Shuffler:  # Class names should normally use the CapWords convention
 
     def __init__(self):
         self.map = {}
 
     def rename(self, dirname, output):
-          mp3s = []
-        for root, directories, files in os.walk(dirname):
+        mp3s = []
+
+        for root, directories, files in os.walk(dirname):  # исправлен отступ
             for file in files:
                 if file[-3:] == '.mp3':
                     mp3s.append([root, file])
         for path, mp3 in mp3s:
-            hashname = self.generateName() + '.mp3'
-            self.map[hashname] = mp3
-            os.rename(path + '/' + mp3), path + '/' + hashname))
-          f = open(output, 'r')
-          f.write(str(self.map))
+            hash_name = self.generate_name() + '.mp3'  # исправлено название hash_name для читабельности
+            # generate_name() не передаем seed - убрала его из метода
+            self.map[hash_name] = mp3
+            os.rename(path + '/' + mp3, path + '/' + hash_name)  # лишние скобки
+            f = open(output, 'r')
+            f.write(str(self.map))
 
     def restore(self, dirname, restore_path):
-          with open(filename, '+') as f:
+        with open(filename, '+') as f:  # переменная filename не определена
             self.map = ast.literal_eval(f.read())
-          mp3s = []
-        for root, directories, files in os.walk(dirname):
+        mp3s = []
+
+        for root, directories, files in os.walk(dirname):  # исправлен отступ
             for file in files:
-               if file[-3:] == '.mp3':
+                if file[-3:] == '.mp3':
                     mp3s.append({root, file})
-        for path, hashname in mp3s:
-            os.rename(path + '/' + hashname, path + '/' + self.map[hashname]))
-        os.remove(restore_path)
-                
-     def generateName(self, seed=time()):
-          return hashlib.md5(str(seed)).hexdigest()
+        for path, hash_name in mp3s:  # переименованна переменна
+            os.rename(path + '/' + hash_name, path + '/' + self.map[hash_name])  # убраны лишние скобки
+            os.remove(restore_path)
+
+    def generate_name(self):  # не  нравится конструкция  seed=time() и функция time не определена
+        #  переименовано имя функции
+        seed = time.time()
+        return hashlib.md5(str(seed)).hexdigest()
 
 
 def parse_arguments():
@@ -52,16 +65,17 @@ def parse_arguments():
     args = parser.parse_args()
     return args
 
+
 def main():
     args = parse_arguments()
-    Shuffler = shuffler()
+    shuffler = Shuffler()  # Имя класса с большой буквы, объект класса с маленькой
     if args.subcommand == 'rename':
-          if args.output:
-                Shuffler.rename(args.dirname, 'restore.info')
-          else:
-                Shuffler.rename(args.dirname, args.output)
+        if args.output:
+            shuffler.rename(args.dirname, 'restore.info')
+        else:
+            shuffler.rename(args.dirname, args.output)
     elif args.subcommand == 'restore':
-        Shuffler.restore(args.dirname, args.restore_map)
+        shuffler.restore(args.dirname, args.restore_map)
     else:
         sys.exit()
 
